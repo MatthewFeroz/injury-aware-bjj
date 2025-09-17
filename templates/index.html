@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Injury-Aware BJJ Coach</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f7f7f7; }
+    h1 { color: #2c3e50; }
+    form { margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 6px; }
+    button { padding: 8px 16px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #34495e; }
+    .results { display: flex; gap: 40px; margin-top: 20px; }
+    .column { width: 45%; padding: 15px; border-radius: 6px; }
+    .unsafe { background: #ffe6e6; }
+    .safe { background: #e6ffe6; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🤼 Injury-Aware BJJ Coach</h1>
+  <p>Select your injuries and get personalized safe vs unsafe moves.</p>
+
+  <form method="POST">
+    <label><input type="checkbox" name="injuries" value="ACL reconstruction"> ACL reconstruction</label><br>
+    <label><input type="checkbox" name="injuries" value="Meniscus tear"> Meniscus tear</label><br>
+    <label><input type="checkbox" name="injuries" value="Shoulder instability"> Shoulder instability</label><br>
+    <label><input type="checkbox" name="injuries" value="Labrum tear"> Labrum tear</label><br>
+    <label><input type="checkbox" name="injuries" value="Wrist ligament injury"> Wrist ligament injury</label><br>
+    <label><input type="checkbox" name="injuries" value="Neck injury"> Neck injury</label><br>
+    <label><input type="checkbox" name="injuries" value="Lower back pain"> Lower back pain</label><br>
+    <br>
+    <button type="submit">Get Recommendations</button>
+  </form>
+
+  {% if injuries %}
+  <h2>Results for: {{ injuries|join(", ") }}</h2>
+  <div class="results">
+    <div class="column unsafe">
+      <h3>❌ Unsafe Moves</h3>
+      {% if unsafe_moves %}
+      <ul>
+        {% for move in unsafe_moves %}
+          <li>{{ move }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No unsafe moves found.</p>
+      {% endif %}
+    </div>
+
+    <div class="column safe">
+      <h3>✅ Safe Moves</h3>
+      {% if safe_moves %}
+      <ul>
+        {% for move in safe_moves %}
+          <li>{{ move }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No safe moves found.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</body>
+</html>
