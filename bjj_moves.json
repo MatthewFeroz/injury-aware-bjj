@@ -1,72 +1,233 @@
 [
-    {
-      "technique": "Knee Slice Pass",
-      "primary_joint": "knee",
-      "stress_type": ["deep flexion", "rotational torque"],
-      "unsafe_for": ["acl_reconstruction", "meniscus_tear"],
-      "safe_for": ["short_stocky"]
-    },
-    {
-      "technique": "Toreando Pass",
-      "primary_joint": "hips/legs",
-      "stress_type": ["hip rotation", "lateral movement"],
-      "unsafe_for": [],
-      "safe_for": ["lanky", "explosive"]
-    },
-    {
-      "technique": "Leg Drag Pass",
-      "primary_joint": "hip and base knee",
-      "stress_type": ["knee base load", "hip twist"],
-      "unsafe_for": ["hip_labrum_injury"],
-      "safe_for": ["lanky", "guard_passer"]
-    },
-    {
-      "technique": "Closed Guard (Top)",
-      "primary_joint": "knees",
-      "stress_type": ["long-term compression", "sustained flexion"],
-      "unsafe_for": ["acl_reconstruction", "patellofemoral_pain"],
-      "safe_for": ["balanced"]
-    },
-    {
-      "technique": "Butterfly Guard (Bottom)",
-      "primary_joint": "hips/knees",
-      "stress_type": ["isometric knee flexion"],
-      "unsafe_for": ["meniscus_tear"],
-      "safe_for": ["open_guard_players"]
-    },
-    {
-      "technique": "X-Guard (Bottom)",
-      "primary_joint": "knees/ankles",
-      "stress_type": ["valgus knee pressure"],
-      "unsafe_for": ["acl_reconstruction", "mcl_sprain"],
-      "safe_for": ["flexible", "advanced"]
-    },
-    {
-      "technique": "Kimura Lock (Top/Bottom)",
-      "primary_joint": "shoulder",
-      "stress_type": ["extreme internal rotation", "shoulder torque"],
-      "unsafe_for": ["labrum_tear", "shoulder_instability"],
-      "safe_for": ["no_shoulder_injury"]
-    },
-    {
-      "technique": "Armbar (Bottom)",
-      "primary_joint": "elbow",
-      "stress_type": ["hyperextension"],
-      "unsafe_for": ["elbow_ligament_injury"],
-      "safe_for": ["no_elbow_injury"]
-    },
-    {
-      "technique": "Sprawl (Wrestling Defense)",
-      "primary_joint": "hips/back",
-      "stress_type": ["lumbar compression", "impact hip torque"],
-      "unsafe_for": ["lower_back_pain", "hip_labrum_injury"],
-      "safe_for": ["no_back_injury"]
-    },
-    {
-      "technique": "De La Riva Guard",
-      "primary_joint": "knees/ankles",
-      "stress_type": ["knee external rotation"],
-      "unsafe_for": ["meniscus_tear", "acl_reconstruction"],
-      "safe_for": ["flexible", "open_guard_players"]
-    }
-  ]
+  {
+    "technique": "Knee Slice Pass",
+    "primary_joint": "knee",
+    "stress_type": ["deep flexion", "rotational torque"],
+    "unsafe_for": ["acl_reconstruction", "meniscus_tear"],
+    "safe_for": ["short_stocky"]
+  },
+  {
+    "technique": "Toreando Pass",
+    "primary_joint": "hips/legs",
+    "stress_type": ["hip rotation", "lateral movement"],
+    "unsafe_for": [],
+    "safe_for": ["lanky", "explosive"]
+  },
+  {
+    "technique": "Leg Drag Pass",
+    "primary_joint": "hip and base knee",
+    "stress_type": ["knee base load", "hip twist"],
+    "unsafe_for": ["hip_labrum_injury"],
+    "safe_for": ["lanky", "guard_passer"]
+  },
+  {
+    "technique": "Closed Guard (Top)",
+    "primary_joint": "knees",
+    "stress_type": ["long-term compression", "sustained flexion"],
+    "unsafe_for": ["acl_reconstruction", "patellofemoral_pain"],
+    "safe_for": ["balanced"]
+  },
+  {
+    "technique": "Butterfly Guard (Bottom)",
+    "primary_joint": "hips/knees",
+    "stress_type": ["isometric knee flexion"],
+    "unsafe_for": ["meniscus_tear"],
+    "safe_for": ["open_guard_players"]
+  },
+  {
+    "technique": "X-Guard (Bottom)",
+    "primary_joint": "knees/ankles",
+    "stress_type": ["valgus knee pressure"],
+    "unsafe_for": ["acl_reconstruction", "mcl_sprain"],
+    "safe_for": ["flexible", "advanced"]
+  },
+  {
+    "technique": "Kimura Lock (Top/Bottom)",
+    "primary_joint": "shoulder",
+    "stress_type": ["extreme internal rotation", "shoulder torque"],
+    "unsafe_for": ["labrum_tear", "shoulder_instability"],
+    "safe_for": ["no_shoulder_injury"]
+  },
+  {
+    "technique": "Americana Lock",
+    "primary_joint": "shoulder",
+    "stress_type": ["external rotation", "shoulder torque"],
+    "unsafe_for": ["labrum_tear", "shoulder_instability", "rotator_cuff_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Armbar (Bottom)",
+    "primary_joint": "elbow",
+    "stress_type": ["hyperextension"],
+    "unsafe_for": ["elbow_ligament_injury"],
+    "safe_for": ["no_elbow_injury"]
+  },
+  {
+    "technique": "Omoplata",
+    "primary_joint": "shoulder",
+    "stress_type": ["extreme shoulder rotation"],
+    "unsafe_for": ["labrum_tear", "shoulder_instability"],
+    "safe_for": []
+  },
+  {
+    "technique": "Triangle Choke",
+    "primary_joint": "neck",
+    "stress_type": ["neck compression", "cervical flexion"],
+    "unsafe_for": ["cervical_disc_injury", "neck_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Guillotine Choke",
+    "primary_joint": "neck",
+    "stress_type": ["neck extension", "cervical shear"],
+    "unsafe_for": ["cervical_disc_injury", "neck_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Rear Naked Choke",
+    "primary_joint": "neck",
+    "stress_type": ["blood choke, mild neck compression"],
+    "unsafe_for": ["cervical_instability"],
+    "safe_for": []
+  },
+  {
+    "technique": "Sprawl (Wrestling Defense)",
+    "primary_joint": "hips/back",
+    "stress_type": ["lumbar compression", "impact hip torque"],
+    "unsafe_for": ["lower_back_pain", "hip_labrum_injury"],
+    "safe_for": ["no_back_injury"]
+  },
+  {
+    "technique": "De La Riva Guard",
+    "primary_joint": "knees/ankles",
+    "stress_type": ["knee external rotation"],
+    "unsafe_for": ["meniscus_tear", "acl_reconstruction"],
+    "safe_for": ["flexible", "open_guard_players"]
+  },
+  {
+    "technique": "Heel Hook",
+    "primary_joint": "knee/ankle",
+    "stress_type": ["knee rotational torque", "ligament shear"],
+    "unsafe_for": ["acl_reconstruction", "mcl_sprain", "meniscus_tear", "ankle_instability"],
+    "safe_for": []
+  },
+  {
+    "technique": "Knee Bar",
+    "primary_joint": "knee",
+    "stress_type": ["knee hyperextension"],
+    "unsafe_for": ["acl_reconstruction", "meniscus_tear"],
+    "safe_for": []
+  },
+  {
+    "technique": "Toe Hold",
+    "primary_joint": "ankle",
+    "stress_type": ["ankle twisting torque"],
+    "unsafe_for": ["ankle_instability", "ankle_ligament_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Calf Slicer",
+    "primary_joint": "knee/calf",
+    "stress_type": ["knee compression", "hamstring pressure"],
+    "unsafe_for": ["meniscus_tear", "hamstring_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Can Opener (Neck Crank)",
+    "primary_joint": "neck",
+    "stress_type": ["cervical spine flexion"],
+    "unsafe_for": ["cervical_disc_injury", "neck_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Twister",
+    "primary_joint": "spine",
+    "stress_type": ["lumbar and thoracic rotation", "cervical torque"],
+    "unsafe_for": ["spinal_disc_injury", "scoliosis", "neck_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Kani Basami (Scissor Takedown)",
+    "primary_joint": "knee",
+    "stress_type": ["valgus collapse", "torque under bodyweight"],
+    "unsafe_for": ["acl_reconstruction", "mcl_sprain", "meniscus_tear"],
+    "safe_for": []
+  },
+  {
+    "technique": "Iminari Roll (Entry to Leg Locks)",
+    "primary_joint": "knee/ankle/back",
+    "stress_type": ["knee torque on entry", "spinal flexion"],
+    "unsafe_for": ["acl_reconstruction", "lower_back_pain"],
+    "safe_for": []
+  },
+  {
+    "technique": "Bridge Escape (Shrimp + Bridge)",
+    "primary_joint": "back/neck",
+    "stress_type": ["lumbar hyperextension", "cervical compression"],
+    "unsafe_for": ["lower_back_pain", "neck_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Straight Ankle Lock",
+    "primary_joint": "ankle",
+    "stress_type": ["ankle hyperextension", "Achilles tendon pressure"],
+    "unsafe_for": ["ankle_instability", "achilles_tendonitis", "ankle_ligament_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Heel Hook (50/50)",
+    "primary_joint": "knee/ankle",
+    "stress_type": ["knee rotational torque", "ankle torsion"],
+    "unsafe_for": ["acl_reconstruction", "mcl_sprain", "meniscus_tear", "ankle_instability"],
+    "safe_for": []
+  },
+  {
+    "technique": "Z-Lock",
+    "primary_joint": "knee/ankle",
+    "stress_type": ["external knee torque", "ankle rotation"],
+    "unsafe_for": ["acl_reconstruction", "mcl_sprain", "meniscus_tear"],
+    "safe_for": []
+  },
+  {
+    "technique": "Knee Bar",
+    "primary_joint": "knee",
+    "stress_type": ["knee hyperextension"],
+    "unsafe_for": ["acl_reconstruction", "meniscus_tear", "pcl_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Estima Lock",
+    "primary_joint": "ankle",
+    "stress_type": ["ankle inversion torque"],
+    "unsafe_for": ["ankle_instability", "ankle_ligament_injury", "achilles_tendonitis"],
+    "safe_for": []
+  },
+  {
+    "technique": "Calf Slicer",
+    "primary_joint": "knee/calf",
+    "stress_type": ["knee compression", "hamstring pressure"],
+    "unsafe_for": ["meniscus_tear", "hamstring_injury"],
+    "safe_for": []
+  },
+  {
+    "technique": "Aoki Lock",
+    "primary_joint": "ankle/knee",
+    "stress_type": ["ankle twist", "rotational torque transferring to knee"],
+    "unsafe_for": ["ankle_instability", "acl_reconstruction", "meniscus_tear"],
+    "safe_for": []
+  },
+  {
+    "technique": "Wrist Lock (Standing or From Guard)",
+    "primary_joint": "wrist",
+    "stress_type": ["hyperextension of wrist", "small joint torque"],
+    "unsafe_for": ["carpal_instability", "wrist_ligament_injury", "recent_wrist_fracture"],
+    "safe_for": []
+  },
+  {
+    "technique": "Wrist Lock from Mount/Closed Guard",
+    "primary_joint": "wrist",
+    "stress_type": ["compression and hyperextension of wrist"],
+    "unsafe_for": ["carpal_instability", "wrist_ligament_injury"],
+    "safe_for": []
+  }
+]

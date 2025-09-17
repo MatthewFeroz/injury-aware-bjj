@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import json
+import re
 
 app = Flask(__name__)
 
@@ -7,13 +8,16 @@ app = Flask(__name__)
 with open("bjj_moves.json", "r") as f:
     technique_db = json.load(f)
 
+def normalize_injury(text):
+    # Lowercase, strip, replace spaces with underscores
+    return re.sub(r"\s+", "_", text.strip().lower())
+
 def filter_moves(injury, db):
-    injury = injury.lower()
+    injury_norm = normalize_injury(injury)
     safe_moves = []
     unsafe_moves = []
     for move in db:
-        # If injury matches any unsafe_for tag, exclude it
-        if any(injury in u for u in move["unsafe_for"]):
+        if any(injury_norm == unsafe for unsafe in move["unsafe_for"]):
             unsafe_moves.append(move["technique"])
         else:
             safe_moves.append(move["technique"])
