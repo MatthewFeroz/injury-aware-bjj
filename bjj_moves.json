@@ -1,0 +1,72 @@
+[
+    {
+      "technique": "Knee Slice Pass",
+      "primary_joint": "knee",
+      "stress_type": ["deep flexion", "rotational torque"],
+      "unsafe_for": ["acl_reconstruction", "meniscus_tear"],
+      "safe_for": ["short_stocky"]
+    },
+    {
+      "technique": "Toreando Pass",
+      "primary_joint": "hips/legs",
+      "stress_type": ["hip rotation", "lateral movement"],
+      "unsafe_for": [],
+      "safe_for": ["lanky", "explosive"]
+    },
+    {
+      "technique": "Leg Drag Pass",
+      "primary_joint": "hip and base knee",
+      "stress_type": ["knee base load", "hip twist"],
+      "unsafe_for": ["hip_labrum_injury"],
+      "safe_for": ["lanky", "guard_passer"]
+    },
+    {
+      "technique": "Closed Guard (Top)",
+      "primary_joint": "knees",
+      "stress_type": ["long-term compression", "sustained flexion"],
+      "unsafe_for": ["acl_reconstruction", "patellofemoral_pain"],
+      "safe_for": ["balanced"]
+    },
+    {
+      "technique": "Butterfly Guard (Bottom)",
+      "primary_joint": "hips/knees",
+      "stress_type": ["isometric knee flexion"],
+      "unsafe_for": ["meniscus_tear"],
+      "safe_for": ["open_guard_players"]
+    },
+    {
+      "technique": "X-Guard (Bottom)",
+      "primary_joint": "knees/ankles",
+      "stress_type": ["valgus knee pressure"],
+      "unsafe_for": ["acl_reconstruction", "mcl_sprain"],
+      "safe_for": ["flexible", "advanced"]
+    },
+    {
+      "technique": "Kimura Lock (Top/Bottom)",
+      "primary_joint": "shoulder",
+      "stress_type": ["extreme internal rotation", "shoulder torque"],
+      "unsafe_for": ["labrum_tear", "shoulder_instability"],
+      "safe_for": ["no_shoulder_injury"]
+    },
+    {
+      "technique": "Armbar (Bottom)",
+      "primary_joint": "elbow",
+      "stress_type": ["hyperextension"],
+      "unsafe_for": ["elbow_ligament_injury"],
+      "safe_for": ["no_elbow_injury"]
+    },
+    {
+      "technique": "Sprawl (Wrestling Defense)",
+      "primary_joint": "hips/back",
+      "stress_type": ["lumbar compression", "impact hip torque"],
+      "unsafe_for": ["lower_back_pain", "hip_labrum_injury"],
+      "safe_for": ["no_back_injury"]
+    },
+    {
+      "technique": "De La Riva Guard",
+      "primary_joint": "knees/ankles",
+      "stress_type": ["knee external rotation"],
+      "unsafe_for": ["meniscus_tear", "acl_reconstruction"],
+      "safe_for": ["flexible", "open_guard_players"]
+    }
+  ]
