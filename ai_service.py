@@ -13,7 +13,6 @@ class BJJAIAdvisor:
         """Initialize the AI advisor with NVIDIA Cloud API and vector database"""
         self.api_key = os.getenv('NVIDIA_API_KEY')
         self.api_url = "https://integrate.api.nvidia.com/v1/chat/completions"
-        # Use a broadly available model on NVIDIA Integrate API
         self.model_name = "meta/llama-3.1-8b-instruct"
         self.cache = {}  # Simple cache for responses
         

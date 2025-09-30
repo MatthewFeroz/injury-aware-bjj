@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Modern night mode palette (Tailwind-inspired) */
+  --background: 222 47% 5%;        /* slate-950 */
+  --foreground: 210 40% 98%;       /* zinc-50 */
+  --card: 222 47% 7%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 47% 7%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217 91% 60%;          /* sky-500 */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 220 14% 20%;        /* zinc-700 */
+  --secondary-foreground: 210 40% 98%;
+  --muted: 220 14% 20%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 220 14% 20%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 84% 60%;        /* red-500 */
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 19% 27%;           /* slate-600 */
+  --input: 217 19% 27%;
+  --ring: 215 74% 52%;             /* blue-500 */
+  --radius: 0.6rem;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
