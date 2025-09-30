@@ -1,1 +1,6 @@
 flask
+requests
+python-dotenv
+pinecone
+sentence-transformers
+flask-cors

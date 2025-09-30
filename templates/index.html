@@ -3,21 +3,106 @@
 <head>
   <title>Injury-Aware BJJ Coach</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; background: #f7f7f7; }
-    h1 { color: #2c3e50; }
-    form { margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 6px; }
-    button { padding: 8px 16px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #34495e; }
-    .results { display: flex; gap: 40px; margin-top: 20px; }
-    .column { width: 45%; padding: 15px; border-radius: 6px; }
-    .unsafe { background: #ffe6e6; }
-    .safe { background: #e6ffe6; }
-    ul { padding-left: 20px; }
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 30px; 
+      background: #1a1a1a; 
+      color: #e0e0e0; 
+    }
+    h1 { color: #4a9eff; }
+    h2 { color: #66b3ff; }
+    h3 { color: #80c4ff; }
+    p { color: #c0c0c0; }
+    form { 
+      margin-bottom: 20px; 
+      padding: 20px; 
+      background: #2d2d2d; 
+      border-radius: 8px; 
+      border: 1px solid #404040;
+    }
+    label { 
+      color: #e0e0e0; 
+      display: block; 
+      margin: 8px 0; 
+      cursor: pointer;
+    }
+    input[type="checkbox"] { 
+      margin-right: 8px; 
+      accent-color: #4a9eff;
+    }
+    button { 
+      padding: 12px 24px; 
+      background: linear-gradient(135deg, #4a9eff, #357abd); 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    button:hover { 
+      background: linear-gradient(135deg, #357abd, #2a5a8a); 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+    }
+    .results { 
+      display: flex; 
+      gap: 40px; 
+      margin-top: 20px; 
+    }
+    .column { 
+      width: 45%; 
+      padding: 20px; 
+      border-radius: 8px; 
+      border: 1px solid #404040;
+    }
+    .unsafe { 
+      background: linear-gradient(135deg, #4a1a1a, #3d1515); 
+      border-left: 4px solid #ff6b6b;
+    }
+    .safe { 
+      background: linear-gradient(135deg, #1a4a1a, #153d15); 
+      border-left: 4px solid #51cf66;
+    }
+    .ai-section { 
+      background: linear-gradient(135deg, #1a2a4a, #15203d); 
+      margin-top: 20px; 
+      padding: 20px; 
+      border-radius: 8px; 
+      border: 1px solid #404040;
+      border-left: 4px solid #4a9eff;
+    }
+    .recovery-section { 
+      background: linear-gradient(135deg, #4a3a1a, #3d2f15); 
+      margin-top: 15px; 
+      padding: 20px; 
+      border-radius: 8px; 
+      border: 1px solid #404040;
+      border-left: 4px solid #ffd43b;
+    }
+    ul { 
+      padding-left: 20px; 
+      color: #e0e0e0;
+    }
+    li { 
+      margin: 8px 0; 
+      color: #e0e0e0;
+    }
+    .ai-content { 
+      white-space: pre-line; 
+      line-height: 1.6; 
+      color: #e0e0e0;
+    }
+    .unsafe h3 { color: #ff6b6b; }
+    .safe h3 { color: #51cf66; }
+    .ai-section h3 { color: #4a9eff; }
+    .recovery-section h3 { color: #ffd43b; }
   </style>
 </head>
 <body>
   <h1>🤼 Injury-Aware BJJ Coach</h1>
-  <p>Select your injuries and get personalized safe vs unsafe moves.</p>
+  <p>Select your injuries and get personalized safe vs unsafe moves with AI-powered recommendations.</p>
 
   <form method="POST">
     <label><input type="checkbox" name="injuries" value="ACL reconstruction"> ACL reconstruction</label><br>
@@ -60,6 +145,23 @@
       {% endif %}
     </div>
   </div>
+  
+  <!-- AI Recommendations Section -->
+  {% if ai_recommendations %}
+  <div class="ai-section">
+    <h3>🤖 AI Coach Recommendations</h3>
+    <div class="ai-content">{{ ai_recommendations.recommendations }}</div>
+  </div>
+  {% endif %}
+  
+  <!-- Recovery Advice Section -->
+  {% if recovery_advice %}
+  <div class="recovery-section">
+    <h3>🏥 Recovery & Rehabilitation Advice</h3>
+    <div class="ai-content">{{ recovery_advice }}</div>
+  </div>
+  {% endif %}
+  
   {% endif %}
 </body>
 </html>
