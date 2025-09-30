@@ -153,6 +153,56 @@
     <div class="ai-content">{{ ai_recommendations.recommendations }}</div>
   </div>
   {% endif %}
+
+  <div class="ai-section" style="margin-top: 30px;">
+    <h3>💬 Chat with AI Coach</h3>
+    <div id="chat" style="max-width: 800px; padding: 12px; background:#222; border-radius:8px; border:1px solid #404040; margin-bottom:10px; height:220px; overflow:auto"></div>
+    <div style="display:flex; gap:8px; max-width:800px;">
+      <input id="chat-input" type="text" placeholder="Type your message..." style="flex:1; padding:10px; border-radius:6px; border:1px solid #404040; background:#2d2d2d; color:#e0e0e0" />
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const chat = document.getElementById('chat');
+      const input = document.getElementById('chat-input');
+      const send = document.getElementById('chat-send');
+      const sessionId = Math.random().toString(36).slice(2);
+
+      function append(role, text) {
+        const el = document.createElement('div');
+        el.style.margin = '6px 0';
+        el.innerHTML = `<b>${role}:</b> ${text.replace(/</g,'&lt;')}`;
+        chat.appendChild(el);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      async function postMessage() {
+        const msg = input.value.trim();
+        if (!msg) return;
+        append('You', msg);
+        input.value = '';
+        try {
+          const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: sessionId, message: msg })
+          });
+          if (!res.ok) throw new Error('Request failed');
+          const data = await res.json();
+          append('Coach', data.reply || '(no reply)');
+        } catch (e) {
+          append('System', 'Error: ' + e.message);
+        }
+      }
+
+      send.addEventListener('click', postMessage);
+      input.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') postMessage();
+      });
+    })();
+  </script>
   
   <!-- Recovery Advice Section -->
   {% if recovery_advice %}

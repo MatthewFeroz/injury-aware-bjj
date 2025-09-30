@@ -19,6 +19,68 @@ class BJJAIAdvisor:
         
         # Vector database not used in prompt to minimize payload size
     
+    def chat_completion(self, messages: List[Dict[str, str]], max_tokens: int = 256, temperature: float = 0.3) -> str:
+        """Run a chat completion with a list of messages [{role, content}]."""
+        if not self.api_key:
+            return "AI service not configured. Please set NVIDIA_API_KEY environment variable."
+
+        payload = {
+            "model": self.model_name,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
+        }
+
+        response = self._post_with_retry(self.api_url, payload, headers, max_retries=5, backoff=1.5, timeout=25)
+
+        # Log raw response for debugging
+        try:
+            print("[NVIDIA API] status:", response.status_code)
+            preview = response.text[:500]
+            print("[NVIDIA API] body preview:", preview)
+        except Exception:
+            pass
+
+        response.raise_for_status()
+
+        try:
+            result = response.json()
+        except Exception as e:
+            print("[NVIDIA API] JSON parse error:", e)
+            raise
+
+        try:
+            choices = result.get("choices", [])
+            first = choices[0] if choices else {}
+            message = first.get("message", {}) or {}
+
+            candidates = [
+                message.get("content"),
+                message.get("reasoning_content"),
+                first.get("text"),
+                (first.get("delta") or {}).get("content"),
+                (result.get("output") or {}).get("text"),
+            ]
+
+            for c in candidates:
+                if isinstance(c, str) and c.strip():
+                    return self._clean_response(c.strip())
+
+            print("[NVIDIA API] Unrecognized content structure keys:", {
+                "message_keys": list(message.keys()) if isinstance(message, dict) else type(message),
+                "first_keys": list(first.keys()) if isinstance(first, dict) else type(first),
+            })
+            return "AI response received but content was empty."
+        except Exception as e:
+            print("[NVIDIA API] Parse error:", e)
+            return "AI response received but could not be parsed."
+
     def get_ai_recommendations(self, injuries: List[str], safe_moves: List[str], unsafe_moves: List[str]) -> Dict[str, str]:
         """
         Get AI-powered recommendations for BJJ training with injuries
