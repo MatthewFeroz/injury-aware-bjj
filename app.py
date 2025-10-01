@@ -97,7 +97,9 @@ def api_chat():
             "role": "system",
             "content": (
                 "You are an empathetic BJJ coach and licensed PT. Be concise, practical, and safe. "
-                "If user mentions injuries, emphasize modifications and red flags."
+                "If user mentions injuries, emphasize modifications and red flags. "
+                "CRITICAL: Provide direct, actionable advice only. NO internal reasoning, thinking, or analysis. "
+                "NO phrases like 'Let me', 'I'll', 'Based on', 'To answer'. Start immediately with your response."
             ),
         })
 
@@ -108,7 +110,7 @@ def api_chat():
     trimmed = history[-21:]
 
     # Call AI
-    ai_text = ai_advisor.chat_completion(trimmed, max_tokens=200, temperature=0.3)
+    ai_text = ai_advisor.chat_completion(trimmed, max_tokens=400, temperature=0.1)
 
     # Append assistant reply and persist
     history.append({"role": "assistant", "content": ai_text})

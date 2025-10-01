@@ -2,23 +2,18 @@ import os
 import requests
 import time
 from typing import List, Dict, Any
-from dotenv import load_dotenv
-# Vector DB disabled in prompt path during troubleshooting
-
-# Load environment variables
-load_dotenv()
 
 class BJJAIAdvisor:
     def __init__(self):
         """Initialize the AI advisor with NVIDIA Cloud API and vector database"""
         self.api_key = os.getenv('NVIDIA_API_KEY')
         self.api_url = "https://integrate.api.nvidia.com/v1/chat/completions"
-        self.model_name = "meta/llama-3.1-8b-instruct"
+        self.model_name = "nvidia/nvidia-nemotron-nano-9b-v2"
         self.cache = {}  # Simple cache for responses
         
         # Vector database not used in prompt to minimize payload size
     
-    def chat_completion(self, messages: List[Dict[str, str]], max_tokens: int = 256, temperature: float = 0.3) -> str:
+    def chat_completion(self, messages: List[Dict[str, str]], max_tokens: int = 600, temperature: float = 0.1) -> str:
         """Run a chat completion with a list of messages [{role, content}]."""
         if not self.api_key:
             return "AI service not configured. Please set NVIDIA_API_KEY environment variable."
@@ -28,6 +23,13 @@ class BJJAIAdvisor:
             "messages": messages,
             "max_tokens": max_tokens,
             "temperature": temperature,
+            "top_p": 0.8,
+            "frequency_penalty": 0.2,
+            "presence_penalty": 0.2,
+            "extra_body": {
+                "min_thinking_tokens": 0,
+                "max_thinking_tokens": 2000
+            }
         }
 
         headers = {
@@ -158,8 +160,15 @@ class BJJAIAdvisor:
         payload = {
             "model": self.model_name,
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 128,
-            "temperature": 0.3
+            "max_tokens": 1200,
+            "temperature": 0.1,
+            "top_p": 0.8,
+            "frequency_penalty": 0.2,
+            "presence_penalty": 0.2,
+            "extra_body": {
+                "min_thinking_tokens": 0,
+                "max_thinking_tokens": 2000
+            }
         }
         
         headers = {
@@ -228,17 +237,27 @@ class BJJAIAdvisor:
             # Skip internal reasoning patterns
             if (line.startswith("The user asks") or 
                 line.startswith("We can do:") or 
-                line.startswith("Let me") and "think" in line.lower() or
-                line.startswith("I need to") and "recall" in line.lower() or
+                line.startswith("Let me") and ("think" in line.lower() or "analyze" in line.lower()) or
+                line.startswith("I need to") and ("recall" in line.lower() or "consider" in line.lower()) or
                 line.startswith("First,") and "need to" in line.lower() or
                 line.startswith("Okay,") and "tackle" in line.lower() or
                 line.startswith("Let's") and "produce" in line.lower() or
-                "internal" in line.lower() and "reasoning" in line.lower()):
+                line.startswith("I'll") and ("think" in line.lower() or "analyze" in line.lower()) or
+                line.startswith("Now,") and ("let me" in line.lower() or "I'll" in line.lower()) or
+                "internal" in line.lower() and "reasoning" in line.lower() or
+                line.startswith("Based on") and "I can" in line.lower() or
+                line.startswith("To answer") and "I'll" in line.lower() or
+                line.startswith("I should") and ("think" in line.lower() or "consider" in line.lower()) or
+                "let me think" in line.lower() or
+                "I need to think" in line.lower() or
+                "let me analyze" in line.lower()):
                 continue
             
             # Skip lines that are clearly internal planning
             if (line.startswith("**") and "final answer" in line.lower() or
-                line.startswith("**") and "response" in line.lower() and "planning" in line.lower()):
+                line.startswith("**") and "response" in line.lower() and "planning" in line.lower() or
+                line.startswith("**") and "thinking" in line.lower() or
+                line.startswith("**") and "analysis" in line.lower()):
                 continue
                 
             cleaned_lines.append(line)
@@ -248,6 +267,11 @@ class BJJAIAdvisor:
         
         # Remove any remaining internal reasoning markers
         cleaned = cleaned.replace("**Final Answer:**", "").replace("**Response:**", "")
+        cleaned = cleaned.replace("**Thinking:**", "").replace("**Analysis:**", "")
+        
+        # Remove repetitive phrases
+        cleaned = cleaned.replace("Let me provide", "Here's").replace("I'll provide", "Here's")
+        cleaned = cleaned.replace("Let me give you", "Here's").replace("I'll give you", "Here's")
         
         return cleaned
 
@@ -290,61 +314,121 @@ class BJJAIAdvisor:
     def _create_recommendation_prompt(
         self, injuries: List[str], safe_moves: List[str], unsafe_moves: List[str], similar_techniques: List[Dict] = None
     ) -> str:
-        """Create a concise, clinically structured prompt for move recommendations"""
+        """Create a professional PT-style prompt with proper diagnosis and exercise recommendations"""
         similar_info = ""
         if similar_techniques:
             similar_names = [t['metadata']['technique'] for t in similar_techniques[:3]]
             similar_info = f"\nSIMILAR TECHNIQUES FOUND: {', '.join(similar_names)}"
         
         return f"""
-You are a licensed physical therapist and BJJ coach. 
-A student presents with: {', '.join(injuries)}.
+You are a licensed physical therapist with 15+ years of experience treating combat sports athletes. 
+A BJJ practitioner presents with: {', '.join(injuries)}.
 
 Training considerations:
 SAFE MOVES: {', '.join(safe_moves[:8])}  
 UNSAFE MOVES: {', '.join(unsafe_moves[:8])}  
 {similar_info}
 
-Provide a concise consult note in bullet points only:
-1. **Risk Analysis**: 2–3 bullets explaining why the listed moves are safe/unsafe (focus on mechanics, e.g., joint stress).
-2. **Training Modifications**: Up to 3 safer move substitutions or strategy adaptations.
-3. **Warm‑Up/Preparation**: 2–3 specific drills/activations tailored to the injury.
+Provide a comprehensive assessment and treatment plan using this exact markdown format:
 
-Rules:
-- Keep response under 100 words.
-- Use professional, clinical tone.
-- No speculative "thinking" or filler text.
-- No internal reasoning or planning.
-- Direct, actionable advice only.
-- Bullet points only.
+## INITIAL ASSESSMENT
+**Primary concern:** [Specific injury/pain location and mechanism]
+**Pain level:** [Scale 1-10 and aggravating factors]
+**Functional limitations:** [2-3 specific movement restrictions]
+
+## TOP 3 RECOMMENDED EXERCISES WITH EXPLANATIONS
+
+### Exercise 1: [Specific name] - [Sets]x[Reps]
+**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
+**Target:** [Specific muscle/joint/function being addressed]
+
+### Exercise 2: [Specific name] - [Sets]x[Reps]
+**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
+**Target:** [Specific muscle/joint/function being addressed]
+
+### Exercise 3: [Specific name] - [Sets]x[Reps]
+**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
+**Target:** [Specific muscle/joint/function being addressed]
+
+## SAFETY ANALYSIS
+**Why these moves are SAFE:** [Detailed explanation of biomechanics that protect the injured area]
+**Why these moves are UNSAFE:** [Detailed explanation of biomechanical stress on injured tissues]
+
+## TRAINING MODIFICATIONS
+**Avoid:** [Specific movements with detailed biomechanical reasoning]
+**Warm-up:** [2 targeted activation exercises with reasoning]
+
+## PROGRESSION CRITERIA
+**Ready to advance when:** [2 specific functional milestones]
+**Stop if:** [3 specific warning signs indicating regression]
+
+**Focus on:** [specific techniques/approaches that promote healing and safe progression]
+
+CRITICAL RULES:
+- Maximum 500 words total.
+- Use exact markdown format above with clear sections.
+- NO internal reasoning, thinking, or analysis.
+- NO phrases like "Let me", "I'll", "Based on", "To answer".
+- Direct, professional clinical advice only.
+- Start immediately with ## INITIAL ASSESSMENT
+- MUST end with "Focus on:" statement
 """
     
     def _create_recovery_prompt(self, injuries: List[str]) -> str:
-        """Create a concise, professional rehab guidance prompt"""
+        """Create a professional PT-style recovery assessment and treatment plan"""
         return f"""
-You are a licensed physical therapist specializing in combat sports. 
+You are a licensed physical therapist with specialized training in sports rehabilitation and combat sports medicine. 
 A BJJ athlete presents with: {', '.join(injuries)}.
 
-Provide a concise consult note, in bullet points only:
+Provide a comprehensive rehabilitation assessment and treatment plan using this exact markdown format:
 
-1. **Self‑Check**: Up to 2 bullets of safe ways to gauge severity (mobility, swelling, pain levels).
-2. **Rehab Exercises**: Exactly 3 evidence‑based exercises (with sets/reps).
-3. **Training Timeline**: 3 clear stages (rest → light drill → return to rolling).
-4. **Red Flags**: Up to 3 warning signs where training should stop.
+## CLINICAL ASSESSMENT
+**Injury mechanism:** [Specific cause and tissue involvement]
+**Current pain pattern:** [Location, intensity, and aggravating movements]
+**Functional deficits:** [3 specific movement limitations affecting training]
 
-Rules:
-- Max 100 words total.
-- Bullets only, no paragraphs.
-- Avoid speculation or inner reasoning — authoritative clinical guidance only.
-- No internal reasoning or planning.
-- Direct, actionable advice only.
-- End with: "Always consult your healthcare provider before returning to full training."
+## REHABILITATION PROTOCOL
+**Phase 1 (Weeks 1-2):** [Pain management and tissue protection exercises with detailed reasoning]
+**Phase 2 (Weeks 3-4):** [Progressive loading and mobility restoration with biomechanical explanation]
+**Phase 3 (Weeks 5-6):** [Sport-specific movement patterns and return to training with progression criteria]
+
+## TREATMENT EXERCISES WITH EXPLANATIONS
+
+### Exercise 1: [Specific name] - [Sets]x[Reps] - [Duration]
+**Reasoning:** [Detailed explanation of how this addresses the specific injury]
+**Target tissue/function:** [Specific anatomical structures being rehabilitated]
+
+### Exercise 2: [Specific name] - [Sets]x[Reps] - [Duration]
+**Reasoning:** [Detailed explanation of how this addresses the specific injury]
+**Target tissue/function:** [Specific anatomical structures being rehabilitated]
+
+### Exercise 3: [Specific name] - [Sets]x[Reps] - [Duration]
+**Reasoning:** [Detailed explanation of how this addresses the specific injury]
+**Target tissue/function:** [Specific anatomical structures being rehabilitated]
+
+## PROGRESSION MONITORING
+**Daily assessment:** [2 specific pain/mobility markers with normal ranges]
+**Weekly milestones:** [1 functional test to track improvement with success criteria]
+**Red flags:** [3 warning signs requiring immediate medical attention with specific symptoms]
+
+**Focus on:** [specific rehabilitation approaches that promote healing and safe return to training]
+
+CRITICAL RULES:
+- Maximum 450 words total.
+- Use exact markdown format above with clear sections.
+- NO internal reasoning, thinking, or analysis.
+- NO phrases like "Let me", "I'll", "Based on", "To answer".
+- Direct, professional clinical guidance only.
+- Start immediately with ## CLINICAL ASSESSMENT
+- MUST end with "Focus on:" statement
 """
     def _parse_ai_response(self, response: str) -> Dict[str, str]:
         """Parse the AI response into structured recommendations"""
-        # Simple parsing - in a production app, you might want more sophisticated parsing
-        lines = response.split('\n')
+        # Clean up the response and return as-is since we're not using markdown
+        cleaned_response = response.strip()
         
+        # Split into recommendations and recovery advice based on content
+        lines = cleaned_response.split('\n')
         recommendations = []
         recovery_advice = []
         
@@ -355,20 +439,21 @@ Rules:
             if not line:
                 continue
                 
-            if 'recovery' in line.lower() or 'rehabilitation' in line.lower():
+            # Identify sections
+            if any(keyword in line.lower() for keyword in ['clinical assessment', 'rehabilitation protocol', 'treatment exercises', 'progression monitoring']):
                 current_section = 'recovery'
-            elif 'recommendation' in line.lower() or 'training' in line.lower():
+            elif any(keyword in line.lower() for keyword in ['initial assessment', 'recommended exercises', 'safety analysis', 'training modifications']):
                 current_section = 'recommendations'
             
-            if current_section == 'recommendations':
-                recommendations.append(line)
-            elif current_section == 'recovery':
+            if current_section == 'recovery':
                 recovery_advice.append(line)
+            elif current_section == 'recommendations':
+                recommendations.append(line)
             else:
                 # Default to recommendations if unclear
                 recommendations.append(line)
         
         return {
-            "recommendations": '\n'.join(recommendations) if recommendations else response,
+            "recommendations": '\n'.join(recommendations) if recommendations else cleaned_response,
             "recovery_advice": '\n'.join(recovery_advice) if recovery_advice else "Please consult with a healthcare professional for personalized recovery advice."
         }
