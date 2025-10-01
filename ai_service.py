@@ -9,9 +9,7 @@ class BJJAIAdvisor:
         self.api_key = os.getenv('NVIDIA_API_KEY')
         self.api_url = "https://integrate.api.nvidia.com/v1/chat/completions"
         self.model_name = "nvidia/nvidia-nemotron-nano-9b-v2"
-        self.cache = {}  # Simple cache for responses
-        
-        # Vector database not used in prompt to minimize payload size
+        self.cache = {} 
     
     def chat_completion(self, messages: List[Dict[str, str]], max_tokens: int = 600, temperature: float = 0.1) -> str:
         """Run a chat completion with a list of messages [{role, content}]."""
@@ -336,19 +334,19 @@ Provide a comprehensive assessment and treatment plan using this exact markdown 
 **Pain level:** [Scale 1-10 and aggravating factors]
 **Functional limitations:** [2-3 specific movement restrictions]
 
-## TOP 3 RECOMMENDED EXERCISES WITH EXPLANATIONS
+## TOP 3 RECOMMENDED JIU JITSU DRILLS WITH EXPLANATIONS
 
-### Exercise 1: [Specific name] - [Sets]x[Reps]
-**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
-**Target:** [Specific muscle/joint/function being addressed]
+### Drill 1: [Specific BJJ technique/drill name] - [Duration/Reps]
+**Reasoning:** [Detailed explanation of how this drill protects the injured area while maintaining BJJ skills]
+**Target:** [Specific BJJ movements/positions that are safe and beneficial for this injury]
 
-### Exercise 2: [Specific name] - [Sets]x[Reps]
-**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
-**Target:** [Specific muscle/joint/function being addressed]
+### Drill 2: [Specific BJJ technique/drill name] - [Duration/Reps]
+**Reasoning:** [Detailed explanation of how this drill protects the injured area while maintaining BJJ skills]
+**Target:** [Specific BJJ movements/positions that are safe and beneficial for this injury]
 
-### Exercise 3: [Specific name] - [Sets]x[Reps]
-**Reasoning:** [Detailed biomechanical reasoning for this specific injury]
-**Target:** [Specific muscle/joint/function being addressed]
+### Drill 3: [Specific BJJ technique/drill name] - [Duration/Reps]
+**Reasoning:** [Detailed explanation of how this drill protects the injured area while maintaining BJJ skills]
+**Target:** [Specific BJJ movements/positions that are safe and beneficial for this injury]
 
 ## SAFETY ANALYSIS
 **Why these moves are SAFE:** [Detailed explanation of biomechanics that protect the injured area]
@@ -372,6 +370,8 @@ CRITICAL RULES:
 - Direct, professional clinical advice only.
 - Start immediately with ## INITIAL ASSESSMENT
 - MUST end with "Focus on:" statement
+- Drills MUST be specific BJJ techniques (e.g., "Shrimp Drills", "Bridge and Roll", "Hip Escape Patterns", "Guard Retention Drills", "Technical Stand-up", "Granby Rolls", "Inverted Guard Drills")
+- NO general physical therapy exercises - only BJJ-specific movements and drills
 """
     
     def _create_recovery_prompt(self, injuries: List[str]) -> str:
