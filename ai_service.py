@@ -3,6 +3,14 @@ import requests
 import time
 from typing import List, Dict, Any
 
+# Optional imports for vector database
+try:
+    from pinecone import Pinecone, ServerlessSpec
+    from sentence_transformers import SentenceTransformer
+    PINECONE_AVAILABLE = True
+except ImportError:
+    PINECONE_AVAILABLE = False
+
 class BJJAIAdvisor:
     def __init__(self):
         """Initialize the AI advisor with NVIDIA Cloud API and vector database"""
