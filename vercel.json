@@ -21,16 +21,11 @@
       "dest": "app.py"
     },
     {
-      "src": "/static/frontend/(.*)",
-      "dest": "/static/frontend/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/static/frontend/index.html"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/static/frontend/index.html"
+      "dest": "/index.html"
     }
   ]
 }
