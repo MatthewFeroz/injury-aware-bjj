@@ -93,7 +93,7 @@ This tool does not provide medical advice. Always consult a healthcare professio
 	npm install
 
 4. Start development server:
-   
+
 	npm run dev
 
 6. Build for production:
