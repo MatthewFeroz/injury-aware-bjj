@@ -126,163 +126,24 @@ injury-aware-bjj/
 - `POST /api/recommendations` - Get injury-aware technique recommendations
 - `POST /api/chat` - Chat with AI coach
 
-## 🚀 Deployment Options
+## 🚀 Deployment
 
-### Option 1: Railway (Recommended)
+### Vercel Deployment
 
-Railway provides seamless deployment for full-stack applications.
+This project is configured for Vercel deployment.
 
-1. **Connect your repository**
-   - Go to [Railway.app](https://railway.app)
-   - Connect your GitHub repository
-   - Railway will auto-detect your project structure
-
-2. **Configure environment variables**
-   - Add `NVIDIA_API_KEY` and `PINECONE_API_KEY` in Railway dashboard
-   - Set `PORT=5000` (Railway will handle this automatically)
-
-3. **Deploy**
-   - Railway will automatically build and deploy your application
-   - Your app will be available at `https://your-app-name.railway.app`
-
-### Option 2: Heroku
-
-1. **Install Heroku CLI**
-   ```bash
-   # Install Heroku CLI from https://devcenter.heroku.com/articles/heroku-cli
-   ```
-
-2. **Create Heroku app**
-   ```bash
-   heroku create your-app-name
-   ```
-
-3. **Set environment variables**
-   ```bash
-   heroku config:set NVIDIA_API_KEY=your_api_key
-   heroku config:set PINECONE_API_KEY=your_pinecone_key
-   ```
-
-4. **Create Procfile**
-   ```bash
-   echo "web: python app.py" > Procfile
-   ```
-
-5. **Deploy**
-   ```bash
-   git add .
-   git commit -m "Deploy to Heroku"
-   git push heroku main
-   ```
-
-### Option 3: Vercel (Frontend) + Railway (Backend)
-
-For optimal performance, deploy frontend and backend separately.
-
-#### Backend (Railway)
-Follow Option 1 steps for backend deployment.
-
-#### Frontend (Vercel)
 1. **Connect to Vercel**
    - Go to [Vercel.com](https://vercel.com)
    - Import your repository
-   - Set root directory to `frontend`
 
 2. **Configure build settings**
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
+   - Vercel will automatically detect the frontend and backend.
 
 3. **Set environment variables**
-   - Add `VITE_API_URL` pointing to your Railway backend URL
+   - Add `NVIDIA_API_KEY` and `PINECONE_API_KEY` in the Vercel project settings.
 
 4. **Deploy**
-   - Vercel will automatically deploy on every push to main
-
-### Option 4: DigitalOcean App Platform
-
-1. **Create App Spec**
-   Create `app.yaml`:
-   ```yaml
-   name: injury-aware-bjj
-   services:
-   - name: backend
-     source_dir: /
-     github:
-       repo: your-username/your-repo
-       branch: main
-     run_command: python app.py
-     environment_slug: python
-     instance_count: 1
-     instance_size_slug: basic-xxs
-     envs:
-     - key: NVIDIA_API_KEY
-       value: your_api_key
-     - key: PINECONE_API_KEY
-       value: your_pinecone_key
-   - name: frontend
-     source_dir: /frontend
-     github:
-       repo: your-username/your-repo
-       branch: main
-     build_command: npm run build
-     run_command: npm run preview
-     environment_slug: node-js
-     instance_count: 1
-     instance_size_slug: basic-xxs
-   ```
-
-2. **Deploy**
-   - Upload the spec to DigitalOcean App Platform
-   - Connect your GitHub repository
-   - Deploy automatically
-
-### Option 5: Docker Deployment
-
-1. **Create Dockerfile**
-   ```dockerfile
-   FROM python:3.9-slim
-
-   WORKDIR /app
-
-   # Install system dependencies
-   RUN apt-get update && apt-get install -y \
-       gcc \
-       && rm -rf /var/lib/apt/lists/*
-
-   # Copy requirements and install Python dependencies
-   COPY requirements.txt .
-   RUN pip install --no-cache-dir -r requirements.txt
-
-   # Copy application code
-   COPY . .
-
-   # Expose port
-   EXPOSE 5000
-
-   # Run the application
-   CMD ["python", "app.py"]
-   ```
-
-2. **Create docker-compose.yml**
-   ```yaml
-   version: '3.8'
-   services:
-     app:
-       build: .
-       ports:
-         - "5000:5000"
-       environment:
-         - NVIDIA_API_KEY=${NVIDIA_API_KEY}
-         - PINECONE_API_KEY=${PINECONE_API_KEY}
-       volumes:
-         - .:/app
-   ```
-
-3. **Deploy**
-   ```bash
-   docker-compose up -d
-   ```
+   - Vercel will automatically deploy on every push to main.
 
 ## 🔑 API Keys Setup
 
@@ -316,13 +177,6 @@ npm run dev
 # Open http://localhost:5173
 ```
 
-## 📊 Performance Considerations
-
-- **Caching**: AI responses are cached to reduce API calls
-- **Rate Limiting**: Built-in retry logic for API failures
-- **Vector Search**: Optional Pinecone integration for semantic search
-- **Frontend Optimization**: Vite build system for optimized bundles
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -333,7 +187,7 @@ npm run dev
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## 🆘 Support
 
@@ -342,15 +196,6 @@ If you encounter any issues:
 1. Check the [Issues](https://github.com/your-repo/issues) page
 2. Create a new issue with detailed information
 3. Include error logs and environment details
-
-## 🔮 Future Enhancements
-
-- [ ] Integration with wearable devices
-- [ ] Video analysis for technique correction
-- [ ] Mobile app development
-- [ ] Advanced injury tracking
-- [ ] Integration with training logs
-- [ ] Multi-language support
 
 ---
 
