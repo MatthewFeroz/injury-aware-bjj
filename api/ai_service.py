@@ -3,17 +3,11 @@ import requests
 import time
 from typing import List, Dict, Any
 
-# Optional imports for vector database
-try:
-    from pinecone import Pinecone, ServerlessSpec
-    from sentence_transformers import SentenceTransformer
-    PINECONE_AVAILABLE = True
-except ImportError:
-    PINECONE_AVAILABLE = False
+# AI service for BJJ injury recommendations
 
 class BJJAIAdvisor:
     def __init__(self):
-        """Initialize the AI advisor with NVIDIA Cloud API and vector database"""
+        """Initialize the AI advisor with NVIDIA Cloud API"""
         self.api_key = os.getenv('NVIDIA_API_KEY')
         self.api_url = "https://integrate.api.nvidia.com/v1/chat/completions"
         self.model_name = "nvidia/nvidia-nemotron-nano-9b-v2"

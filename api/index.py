@@ -2,20 +2,19 @@ from flask import Flask, request, render_template, jsonify
 import os
 import json
 import re
-import sys
-import os
-
-# Add the parent directory to the path so we can import our modules
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from ai_service import BJJAIAdvisor
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Construct the path to the JSON file
+json_path = os.path.join(current_dir, "bjj_moves.json")
+
 # Load the BJJ knowledge base
-with open("bjj_moves.json", "r") as f:
+with open(json_path, "r") as f:
     technique_db = json.load(f)
 
 # Initialize AI advisor

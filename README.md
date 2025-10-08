@@ -13,7 +13,7 @@ This tool does not provide medical advice. Always consult a healthcare professio
 - Injury-Aware Filtering: JSON knowledge base of 200+ BJJ techniques tagged with injury risks
 - AI-Powered Coaching: NVIDIA Nemotron integration for personalized training recommendations
 - Interactive Chat: Real-time chat interface with BJJ coach and physical therapist persona
-- Vector Database: Pinecone integration for semantic search of techniques
+- Smart Recommendations: AI-powered technique filtering and recommendations
 - Modern Web Interface: React + TypeScript frontend with Tailwind CSS
 
 ### Technical Features
@@ -29,7 +29,6 @@ This tool does not provide medical advice. Always consult a healthcare professio
 	injury-aware-bjj/
 	├── app.py                 # Flask API server
 	├── ai_service.py          # NVIDIA AI integration
-	├── vector_db.py           # Pinecone vector database
 	├── bjj_moves.json         # BJJ techniques knowledge base
 	├── requirements.txt       # Python dependencies
 	├── frontend/              # React TypeScript frontend
@@ -54,7 +53,6 @@ This tool does not provide medical advice. Always consult a healthcare professio
 - Python 3.8+
 - Node.js 16+
 - NVIDIA API Key (for AI features)
-- Pinecone API Key (for vector search)
 
 ### Backend Setup
 
@@ -70,15 +68,10 @@ This tool does not provide medical advice. Always consult a healthcare professio
 5.  Create a .env file in the root directory:
    
 	NVIDIA_API_KEY=your_nvidia_api_key_here
-	PINECONE_API_KEY=your_pinecone_api_key_here
 	PORT=5000
 	HOST=0.0.0.0
 
-7. Initialize vector database (optional):
-   
-	python init_vector_db.py
-
-9. Run the Flask server:
+7. Run the Flask server:
 
 	python app.py
 
@@ -107,7 +100,6 @@ This tool does not provide medical advice. Always consult a healthcare professio
 | Variable         | Description                           | Required |
 | ---------------- | ------------------------------------- | -------- |
 | NVIDIA_API_KEY   | NVIDIA Cloud API key for AI features  | Yes      |
-| PINECONE_API_KEY | Pinecone API key for vector search    | No       |
 | PORT             | Server port (default: 5000)           | No       |
 | HOST             | Server host (default: 0.0.0.0)        | No       |
 
@@ -131,7 +123,7 @@ This project is configured for Vercel deployment.
    - Vercel will automatically detect the frontend and backend.
 
 3. **Set environment variables**
-   - Add `NVIDIA_API_KEY` and `PINECONE_API_KEY` in the Vercel project settings.
+   - Add `NVIDIA_API_KEY` in the Vercel project settings.
 
 4. **Deploy**
    - Vercel will automatically deploy on every push to main.
@@ -144,13 +136,6 @@ This project is configured for Vercel deployment.
 3. Generate a new API key
 4. Add it to your environment variables
 
-### Pinecone API Key (Optional)
-
-1. Go to Pinecone.io
-2. Create a free account
-3. Create a project and index
-4. Copy your API key
-5. Add it to your environment variables
 
 ## Testing
 
@@ -170,7 +155,7 @@ This project is configured for Vercel deployment.
 
 - Caching: AI responses are cached to reduce API calls
 - Rate Limiting: Built-in retry logic for API failures
-- Vector Search: Optional Pinecone integration for semantic search
+- Smart Filtering: Intelligent technique filtering based on injury data
 - Frontend Optimization: Vite build system for optimized bundles
 
 ## 🤝 Contributing

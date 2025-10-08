@@ -22,7 +22,7 @@ This guide explains how to deploy your BJJ Injury-Aware Coach application to Ver
 
 Set these environment variables in your Vercel dashboard:
 
-- `NVIDIA_API_KEY`: Your NVIDIA API key for AI services
+- `NVIDIA_API_KEY`: Your NVIDIA API key for AI services (required)
 
 ## Deployment Steps
 
