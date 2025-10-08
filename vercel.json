@@ -11,7 +11,7 @@
       "config": {
         "installCommand": "npm install",
         "buildCommand": "npm run build",
-        "outputDirectory": "dist"
+        "outputDirectory": "static/frontend"
       }
     }
   ],
@@ -21,11 +21,16 @@
       "dest": "app.py"
     },
     {
-      "handle": "filesystem"
+      "src": "/static/frontend/(.*)",
+      "dest": "/static/frontend/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/static/frontend/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/static/frontend/index.html"
     }
   ]
 }
