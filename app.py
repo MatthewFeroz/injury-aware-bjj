@@ -52,30 +52,7 @@ def api_recommendations():
         "recovery_advice": recovery_advice
     })
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    injuries = []
-    safe_moves, unsafe_moves = [], []
-    ai_recommendations = {}
-    recovery_advice = ""
-    
-    if request.method == "POST":
-        injuries = request.form.getlist("injuries")
-        safe_moves, unsafe_moves = filter_moves(injuries, technique_db)
-        
-        # Get AI recommendations if injuries are selected
-        if injuries:
-            ai_recommendations = ai_advisor.get_ai_recommendations(injuries, safe_moves, unsafe_moves)
-            recovery_advice = ai_advisor.get_recovery_advice(injuries)
 
-    return render_template(
-        "index.html",
-        injuries=injuries,
-        safe_moves=safe_moves,
-        unsafe_moves=unsafe_moves,
-        ai_recommendations=ai_recommendations,
-        recovery_advice=recovery_advice
-    )
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
